@@ -1,38 +1,21 @@
 package com.annuel.project.server.ampq;
 
-
-import com.annuel.project.server.model.Matches;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-@Slf4j
 public class SendMessageController {
 
     private final RabbitTemplate rabbitTemplate;
 
-
     public SendMessageController(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
-
     }
 
-
-
-    @PostMapping("/message")
-    public String sendMatchs(@RequestBody Matches matches){
-
-        log.info("message send : {}", matches.toString() );
-
-        rabbitTemplate.convertAndSend(AmqpConfig.QUEUE_NAME,matches);
-
-        return "Practical tip sent";
+    @PostMapping("/send")
+    //public String sendMessage(@PathVariable("message") String message) {
+    public String sendMessage(@RequestBody Message message) {
+        rabbitTemplate.convertAndSend("annuel_project_queue", message);
+        return "This is a Message to send! :" + message;
     }
-
-
-
-
 }
-
