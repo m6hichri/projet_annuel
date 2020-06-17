@@ -12,6 +12,12 @@ public class SendMessageController {
         this.rabbitTemplate = rabbitTemplate;
     }
 
+    @GetMapping("/hello")
+    public String welcoom() {
+        System.out.println("*************Welcoom***********");
+        return "Hello World";
+    }
+
     @PostMapping("/send")
     //public String sendMessage(@PathVariable("message") String message) {
     public String sendMessage(@RequestBody Message message) {
